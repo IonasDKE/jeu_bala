@@ -3,6 +3,8 @@ from tkinter import *
 from tkinter.messagebox import showinfo
 from tkinter.ttk import *
 
+from PIL import ImageTk, Image
+
 
 class Application(tk.Frame):
 
@@ -14,9 +16,22 @@ class Application(tk.Frame):
         
     def mainMenu(self):
         self.master.title('Jeu Baladins')
+        self.master.geometry("275x400")
+        image = Image.open("baladins.png")
+        photo = ImageTk.PhotoImage(image, Image.ANTIALIAS)
+
+        # background = Label(self.master, image=photo)
+        # background.image = photo
+        # background.pack()
+
+        space1 = Label(self.master, text='')
+        space1.pack()
 
         label = Label(self.master, text='Etes vous pret?')
         label.pack(side='top')
+
+        space2 = Label(self.master, text='')
+        space2.pack()
 
         openNext = tk.Button(self.master, text='OUIII!!')
         openNext.bind('<Button>', lambda e: [self.start()])
