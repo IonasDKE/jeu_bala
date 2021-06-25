@@ -1,98 +1,87 @@
-import tkinter as tk
 from tkinter import *
 from tkinter.messagebox import showinfo
-from tkinter.ttk import *
-
-from PIL import ImageTk, Image
-
-
-class Application(tk.Frame):
-
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.master = master
-        self.template(self.master)
-        self.mainMenu()
+# from tkinter.ttk import *
         
-    def mainMenu(self):
-        self.master.title('Jeu Baladins')
-        self.master.geometry("275x400")
-        image = Image.open("baladins.png")
-        photo = ImageTk.PhotoImage(image, Image.ANTIALIAS)
 
-        # background = Label(self.master, image=photo)
-        # background.image = photo
-        # background.pack()
+def mainMenu(root):
+    root.title('Jeu Baladins')
+    root.geometry("400x400")
+    bg = PhotoImage(file='baladins.png')
+    
+    canvas = Canvas(root, width=400, height=400)
+    canvas.pack(fill='both', expand=True)
 
-        space1 = Label(self.master, text='')
-        space1.pack()
+    canvas.create_image(0,0, image=bg, anchor='nw')
+    canvas.theimage = bg
 
-        label = Label(self.master, text='Etes vous pret?')
-        label.pack(side='top')
+    canvas.create_text(200,200, text='Etes vous pret?', font=('Helvetica', 30), fill='blue')
 
-        space2 = Label(self.master, text='')
-        space2.pack()
+    openNext = Button(root, text='OUIII!!')
+    openNext.bind('<Button>', lambda e: [start(root)])
 
-        openNext = tk.Button(self.master, text='OUIII!!')
-        openNext.bind('<Button>', lambda e: [self.start()])
-        openNext.pack()
-
-        quit = tk.Button(self.master, text="QUIT", command=self.master.destroy)
-        quit.pack()
+    button1 = canvas.create_window(30, 30, anchor='nw', window=openNext)
     
 
-    def start(self):
-        self.master.withdraw()
-        newWind = Toplevel(self.master)
-        newWind.protocol("WM_DELETE_WINDOW", self.master.destroy)
-        newWind.geometry("275x400")
+def start(root):
+    root.withdraw()
+    newWind = Toplevel(root)
+    newWind.protocol("WM_DELETE_WINDOW", root.destroy)
+    newWind.geometry("400x800")
 
-        space3 = Label(newWind, text='')
-        space3.pack(side='top')
-        label = Label(newWind, text='Question 1:')
-        label.pack(side='top')
-        space1 = Label(newWind, text='')
-        space1.pack(side='top')
-        question = Label(newWind, text='Quel est la couleur des chemises pioniers?')
-        question.pack(side='top')
-        space2 = Label(newWind, text='')
-        space2.pack(side='top')
-        
-        ans1 = tk.Button(newWind, text='blue claire')
-        ans1.bind('<Button>', lambda e: [popup()])
-        ans1.pack(side='top')
-        ans2 = tk.Button(newWind, text='vert')
-        ans2.bind('<Button>', lambda e: [popup()])
+    bg = PhotoImage(file='cowboy.png')
 
-        ans2.pack(side='top')
-        ans3 = tk.Button(newWind, text='bleu fonce')
-        ans3.bind('<Button>', lambda e: [popup()])
+    canvas1 = Canvas(newWind, width=400, height=800)
+    canvas1.pack(fill='both', expand=True)
 
-        ans3.pack(side='top')
-        ans4 = tk.Button(newWind, text='rouge')
-        ans4.bind('<Button>', lambda e: [popupGood(), newWind.withdraw(), self.q2()])
+    canvas1.create_image(0,0, image=bg, anchor='nw')
+    canvas1.theimage = bg
+    
+    canvas1.create_text(200,50, text='Question 1', font=('Helvetica', 28))
+    canvas1.create_text(200,100, text='De quel couleur sont les chemises pio?', font=('Helvetica', 15), fill='black')
 
-        ans4.pack(side='top')
+    ans1 = Button(newWind, text='blue claire', command=popup)
+    button1 = canvas1.create_window(175, 150, anchor='nw', window=ans1)
 
-    def q2(self):
-        newWind = Toplevel(self.master)
-        newWind.protocol("WM_DELETE_WINDOW", self.master.destroy)
-        newWind.geometry("275x400")
+    ans2 =Button(newWind, text='vert', command=popup)
+    button2 = canvas1.create_window(175, 200, anchor='nw', window=ans2)
 
-        space1 = Label(newWind, text='')
-        space1.pack(side='top')
+    ans3 = Button(newWind, text='bleu fonce', command=popup)
+    button3 = canvas1.create_window(175, 250, anchor='nw', window=ans3)
+
+    ans4 = Button(newWind, text='rouge')
+    ans4.bind('<Button>', lambda e: [popupGood(), newWind.withdraw(), q2(root)])
+    button4 = canvas1.create_window(175, 300, anchor='nw', window=ans4)
 
 
-    def template(self, window):
+def q2(root):
+    root.withdraw()
+    newWind = Toplevel(root)
+    newWind.protocol("WM_DELETE_WINDOW", root.destroy)
+    newWind.geometry("400x800")
 
-        windowWidth = window.winfo_reqwidth()
-        windowHeight = window.winfo_reqheight()
-        
-        positionRight = int(window.winfo_screenwidth()/2 - windowWidth/2) 
-        positionDown = int(window.winfo_screenheight()/2 - windowHeight/2) -80
-        
-        window.geometry("+{}+{}".format(positionRight, positionDown))
-        window.title("Scout BDV")
+    bg = PhotoImage(file='cowboy.png')
+
+    canvas1 = Canvas(newWind, width=400, height=800)
+    canvas1.pack(fill='both', expand=True)
+
+    canvas1.create_image(0,0, image=bg, anchor='nw')
+    canvas1.theimage = bg
+    
+    canvas1.create_text(200,50, text='Question 2', font=('Helvetica', 28))
+    canvas1.create_text(200,100, text='De quel couleur sont les chemises pio?', font=('Helvetica', 15), fill='black')
+
+    ans1 = Button(newWind, text='blue claire', command=popup)
+    button1 = canvas1.create_window(175, 150, anchor='nw', window=ans1)
+
+    ans2 =Button(newWind, text='vert', command=popup)
+    button2 = canvas1.create_window(175, 200, anchor='nw', window=ans2)
+
+    ans3 = Button(newWind, text='bleu fonce', command=popup)
+    button3 = canvas1.create_window(175, 250, anchor='nw', window=ans3)
+
+    ans4 = Button(newWind, text='rouge')
+    ans4.bind('<Button>', lambda e: [popupGood(), newWind.withdraw(), q2(root)])
+    button4 = canvas1.create_window(175, 300, anchor='nw', window=ans4)
 
 
 # Informe qu'une contrainte a bien ete ajoutée
@@ -103,10 +92,12 @@ def popupGood():
     showinfo(message="BIEN JOUE!")
 
 def main():
-    master = tk.Tk()
+    master = Tk()
     master.protocol("WM_DELETE_WINDOW", master.destroy)
-    app = Application(master)
-    app.mainloop()
+
+    mainMenu(master)
+
+    master.mainloop()
 
 if __name__ == '__main__':
     main()
